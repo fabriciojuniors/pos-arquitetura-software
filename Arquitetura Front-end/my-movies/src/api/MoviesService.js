@@ -10,4 +10,8 @@ export class MoviesService {
         return axios(withBaseUrl('movie/popular'));
     }
 
+    static getMovieById(id) {
+        return axios(withBaseUrl(`movie/${id}`));
+    }
+
 }

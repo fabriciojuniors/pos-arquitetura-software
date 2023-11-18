@@ -1,0 +1,1 @@
+Lib necessária: https://github.com/bitovi/react-to-web-component

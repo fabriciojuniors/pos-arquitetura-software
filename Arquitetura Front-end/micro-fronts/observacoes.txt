@@ -1,0 +1,1 @@
+- Quando gerado projeto Angular v17, não utilizar SSR --> incompatibilidade com customElements

@@ -1,0 +1,131 @@
+<div class="container container-fluid bg__gray--l40" style="min-height: 500px;">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="page-title">Período financeiro</h1>
+            </div>
+            <div class="col-md-4">
+                <span>Executando > Período financeiro > Período financeiro</span>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="row">
+            <div class="col-md-6 text-left">
+                <div class="flex flex-wrap flex-row">
+                    <div class="block-icon-content mg-right--20">
+                        <div class="block-icon bg__blue--l40">
+                            <i class="fa fa-calendar tx__blue font-18"></i>
+                        </div>
+                        <div>
+                            <div class="font-weight-600">
+                                Período encerrado
+                            </div>
+                            <div>
+                                @if(ultimoEncerramento.data) {
+                                    <div class="text-muted">
+                                        até {{ultimoEncerramento.data | date:'dd/MM/yyyy'}}
+                                    </div>
+                                } @else {
+                                    <div class="text-muted">
+                                        Não há encerramento
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block-icon-content">
+                        <div class="block-icon bg__blue--l40">
+                            <i class="fa fa-calendar tx__blue font-18"></i>
+                        </div>
+                        <div>
+                            <div>
+                                <span class="font-weight-600">Período aberto</span>
+                            </div>
+                            <div>
+                                <div class="flex align-items-center">
+                                    @if(hasPeriodoMovimentacao()) {
+                                        <div class="text-muted">
+                                            {{periodoMovimentacaoFinanceira.dataInicio | date:'dd/MM/yyyy'}} até {{periodoMovimentacaoFinanceira.dataFim | date:'dd/MM/yyyy'}}
+                                        </div>
+                                    } @else {
+                                        <div class="text-muted">
+                                            Não há configuração
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>      
+            </div>
+            <div class="col-md-6 text-right">
+                <button id="btnAtualizarPeriodo"
+                        (click)="init()"
+                        class="btn btn-sm btn-default">
+                    <i class="fa fa-fw fa-refresh"></i>
+                </button>
+
+                <div class="btn-group btn-group-sm">
+                    <button id="btnEncerrarPeriodo"
+                            data-ng-click="vm.encerrarPeriodo()"
+                            data-bf-permissions
+                            operation="criar"
+                            class="btn btn-sm btn-default">
+                        <i class="fa fa-fw fa-lock"></i>Encerrar
+                    </button>
+                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default dropdown-toggle">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="" id="btnIniciarExercicio"
+                                data-ng-click="vm.iniciarExercicio()">Iniciar exercício</a>
+                        </li>
+                        <li>
+                            <a href="" data-ng-click="vm.reabrirPeriodo()" data-bf-permissions operation="criar">Reabrir período encerrado</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <button id="btnHistorico"
+                        data-bf-popover="'contabil/periodos-financeiros/historico/historicos.html'"
+                        data-bf-popover-size="bth-historico-popover-left-button"
+                        data-ng-click="vm.openHistoricos()"
+                        data-toggle="popover"
+                        class="btn btn-sm btn-default">
+                    <i class="fa fa-fw fa-history"></i>Histórico
+                </button>
+
+                <button id="btnConfiguracoes"
+                        data-ng-click="vm.openConfiguracoes()"
+                        class="btn btn-sm btn-default">
+                    <i class="fa fa-fw fa-cog"></i>Configurações
+                </button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="bth-timeline">
+                    <ul class="bth-timeline__list">
+                        @for(item of resumosMensais; track item) {
+                            <li class="bth-timeline__item"
+                                [ngClass]="isStatusNaoAberto(item) ? 'bth-timeline__item--disabled' :  ''">
+                                <button class="bth-timeline__title bth-timeline__title--action bth-timeline__title--no-clickable">
+                                    <div><span>{{item.mes.descricao}}</span></div>
+                                </button>
+                                <ul class="bth-timeline__flags">
+                                    <li>
+                                        <i class="fa fa-fw" [ngClass]="getClassMes(item)" title="{{item.status.description}}"></i>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
